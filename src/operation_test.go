@@ -145,7 +145,9 @@ func setupFileSystem(tb testing.TB) string {
 		}
 	}
 
-	ExampleWalk(testDir)
+	fmt.Println("Test dir is:", absPath)
+
+	ExampleWalk(absPath)
 
 	for _, f := range fileSystem {
 		pathToFile := filepath.Join(absPath, f)
