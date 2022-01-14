@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -72,6 +74,37 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
+func ExampleWalk(tmpDir string) {
+	defer os.RemoveAll(tmpDir)
+
+	err := os.Chdir(tmpDir)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	subDirToSkip := "skip"
+
+	fmt.Println("On Windows:")
+
+	err = filepath.Walk(".", func(path string, info fs.FileInfo, err error) error {
+		if err != nil {
+			fmt.Printf("prevent panic by handling failure accessing a path %q: %v\n", path, err)
+			return err
+		}
+		if info.IsDir() && info.Name() == subDirToSkip {
+			fmt.Printf("skipping a dir without errors: %+v \n", info.Name())
+			return filepath.SkipDir
+		}
+		fmt.Printf("visited file or dir: %q\n", path)
+		return nil
+	})
+
+	if err != nil {
+		fmt.Printf("error walking the path %q: %v\n", tmpDir, err)
+		return
+	}
+}
+
 // setupFileSystem creates all required files and folders for
 // the tests and returns a function that is used as
 // a teardown function when the tests are done.
@@ -111,6 +144,8 @@ func setupFileSystem(tb testing.TB) string {
 			)
 		}
 	}
+
+	ExampleWalk(testDir)
 
 	for _, f := range fileSystem {
 		pathToFile := filepath.Join(absPath, f)
