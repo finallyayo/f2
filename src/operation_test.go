@@ -37,34 +37,34 @@ var (
 	fixtures       = filepath.Join("..", "testdata")
 )
 
-var fileSystem = []string{
-	"No Pressure (2021) S1.E1.1080p.mkv",
-	"No Pressure (2021) S1.E2.1080p.mkv",
-	"No Pressure (2021) S1.E3.1080p.mkv",
-	"images/a.jpg",
-	"images/b.jPg",
-	"images/abc.png",
-	"images/456.webp",
-	"images/pics/123.JPG",
-	"images/pics/free.jpg",
-	"images/pics/ios.mp4",
-	"morepics/pic-1.avif",
-	"morepics/pic-2.avif",
-	"morepics/nested/img.jpg",
-	"morepics/nested/linux.mp4",
-	"scripts/index.js",
-	"scripts/main.js",
-	"abc.pdf",
-	"abc.epub",
-	".forbidden.pdf",
-	".dir/sample.pdf",
-	"conflicts/abc.txt",
-	"conflicts/xyz.txt",
-	"conflicts/123.txt",
-	"conflicts/123 (3).txt",
-	"regex/100$-(boring+company).com.ng",
-	"weirdo/Data Structures and Algorithms/1. Asymptotic Analysis and Insertion Sort, Merge Sort/2.Sorting & Searching why bother with these simple tasks/this is a long path/1. Sorting & Searching- why bother with these simple tasks- - Data Structure & Algorithms - Part-2.mp4",
-}
+// var fileSystem = []string{
+// 	"No Pressure (2021) S1.E1.1080p.mkv",
+// 	"No Pressure (2021) S1.E2.1080p.mkv",
+// 	"No Pressure (2021) S1.E3.1080p.mkv",
+// 	"images/a.jpg",
+// 	"images/b.jPg",
+// 	"images/abc.png",
+// 	"images/456.webp",
+// 	"images/pics/123.JPG",
+// 	"images/pics/free.jpg",
+// 	"images/pics/ios.mp4",
+// 	"morepics/pic-1.avif",
+// 	"morepics/pic-2.avif",
+// 	"morepics/nested/img.jpg",
+// 	"morepics/nested/linux.mp4",
+// 	"scripts/index.js",
+// 	"scripts/main.js",
+// 	"abc.pdf",
+// 	"abc.epub",
+// 	".forbidden.pdf",
+// 	".dir/sample.pdf",
+// 	"conflicts/abc.txt",
+// 	"conflicts/xyz.txt",
+// 	"conflicts/123.txt",
+// 	"conflicts/123 (3).txt",
+// 	"regex/100$-(boring+company).com.ng",
+// 	"weirdo/Data Structures and Algorithms/1. Asymptotic Analysis and Insertion Sort, Merge Sort/2.Sorting & Searching why bother with these simple tasks/this is a long path/1. Sorting & Searching- why bother with these simple tasks- - Data Structure & Algorithms - Part-2.mp4",
+// }
 
 func setupFileSystem(tb testing.TB) string {
 	tb.Helper()
@@ -109,7 +109,7 @@ func setupFileSystem(tb testing.TB) string {
 	return absPath
 }
 
-// var fileSystem []string
+var fileSystem []string
 
 func init() {
 	workingDir, err := filepath.Abs(".")
@@ -130,16 +130,16 @@ func init() {
 		log.Fatalf("Unable to retrieve xdg data file directory: %v", err)
 	}
 
-	// // Read filesystem contents from a text file
-	// filesystemContent, err := os.ReadFile(
-	// 	filepath.Join("..", "testdata", "filesystem.txt"),
-	// )
-	// if err != nil {
-	// 	log.Fatalf("Unable to read contents of filesystem file: %v", err)
-	// }
-	//
-	// filesystemContent = bytes.TrimSpace(filesystemContent)
-	// fileSystem = strings.Split(string(filesystemContent), "\n")
+	// Read filesystem contents from a text file
+	filesystemContent, err := os.ReadFile(
+		filepath.Join("..", "testdata", "filesystem.txt"),
+	)
+	if err != nil {
+		log.Fatalf("Unable to read contents of filesystem file: %v", err)
+	}
+
+	filesystemContent = bytes.TrimSpace(filesystemContent)
+	fileSystem = strings.Split(string(filesystemContent), "\n")
 
 	rand.Seed(time.Now().UnixNano())
 }
